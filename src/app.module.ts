@@ -11,7 +11,30 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-
+    imports: [
+      ConfigModule.forRoot({
+        envFilePath: '.env',
+        isGlobal: true,
+      }),
+      SequelizeModule.forRoot({
+        dialect: process.env.DIALECT as any,
+        host: process.env.HOST,
+        port: parseInt(process.env.PORT_DB, 10),
+        username: 'postgres',
+        password: process.env.PASSWORD,
+        database: process.env.DATABASE,
+        autoLoadModels: process.env.AUTO_LOAD_MODELS === 'true',
+        synchronize: process.env.SYNCHRONIZE === 'true',
+        logging:false
+      }),
+      SequelizeModule.forFeature([Log]),
+      AuthModule,
+      ProductsModule,
+      CustomersModule,
+      OrdersModule,
+      OrderProductsModule,
+      RefreshTokenModule,
+    ],
     UserModule, CourseModule, FilesModule, , UserCoursesModule, CourseFilesModule, AuthModule
     
   ],
