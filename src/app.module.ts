@@ -29,9 +29,12 @@ import { Log } from './log/entities/log.entity';
       logging: false
     }),
     SequelizeModule.forFeature([Log]),
-
-    UserModule, CourseModule, FilesModule, , UserCoursesModule, CourseFilesModule, AuthModule
-
+    UserModule,
+    CourseModule,
+    FilesModule,
+    UserCoursesModule,
+    CourseFilesModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],
