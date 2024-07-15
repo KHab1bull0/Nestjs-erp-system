@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
-import { UserModule } from './user/user.module';
-import { FilesModule } from './files/files.module';
-import { UserCoursesModule } from './user-courses/user-courses.module';
-import { CourseFilesModule } from './course-files/course-files.module';
-import { CourseModule } from './course/course.module';
-import { AuthModule } from './auth/auth.module';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { ProductsModule } from './products/products.module';
+import { CustomersModule } from './customers/customers.module';
+import { OrdersModule } from './orders/orders.module';
+import { OrderProductsModule } from './order_products/order_products.module';
+import { RefreshTokenModule } from './refresh-token/refresh-token.module';
+import { LoggingInterceptor } from './log/logging.intercetor';
 import { Log } from './log/entities/log.entity';
-
-
 
 @Module({
   imports: [
@@ -26,17 +25,21 @@ import { Log } from './log/entities/log.entity';
       database: process.env.DATABASE,
       autoLoadModels: process.env.AUTO_LOAD_MODELS === 'true',
       synchronize: process.env.SYNCHRONIZE === 'true',
-      logging: false
+      logging:false
     }),
     SequelizeModule.forFeature([Log]),
-    UserModule,
-    CourseModule,
-    FilesModule,
-    UserCoursesModule,
-    CourseFilesModule,
-    AuthModule
+    AuthModule,
+    ProductsModule,
+    CustomersModule,
+    OrdersModule,
+    OrderProductsModule,
+    RefreshTokenModule,
   ],
-  controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: 'APP_INTERCEPTOR',
+      useClass: LoggingInterceptor,
+    },
+  ],
 })
 export class AppModule { }
